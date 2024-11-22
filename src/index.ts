@@ -5,7 +5,10 @@ import { appError, validateRequest } from '@/middleware';
 import membershipRouter from '@/membership/controller';
 import bannerRouter from '@/banner/controller';
 import transactionRouter from '@/transaction/controller';
+import { seedDatabase } from '@/database/seeder';
+import { db } from '@/database/db';
 
+seedDatabase(db);
 const app = express();
 app.use(bodyParser.json());
 app.use(validateRequest);
