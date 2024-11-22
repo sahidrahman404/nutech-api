@@ -8,6 +8,8 @@ import { StatusCodes } from 'http-status-codes';
 import { db } from '@/database/db';
 import AppError from '@/error/app-error';
 import jwt from 'jsonwebtoken';
+import * as MemberServices from '@/membership/services';
+import * as MemberRepositories from '@/membership/repositories';
 import multer from 'multer';
 import { imageFormatError } from '@/error/image-error';
 
@@ -54,6 +56,38 @@ export function appError(
   next();
 }
 
+export async function validateRequest(
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) {
+  try {
+    const authHeader = req.headers['authorization'];
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      res.locals.user = null;
+      return next();
+    }
+    const token = authHeader.split(' ')[1];
+    if (!token) {
+      res.locals.user = null;
+      return next();
+    }
+    const decoded = jwt.verify(token, MemberServices.SECRET_KEY) as {
+      email: string;
+    };
+    const userID = MemberRepositories.getMemberUserID(decoded.email, db);
+    if (!userID) {
+      res.locals.user = null;
+      return next();
+    }
+    res.locals.user = { email: decoded.email, userID: userID };
+    return next();
+  } catch (error) {
+    res.locals.user = null;
+    return next();
+  }
+}
 
 export const upload = multer({
   storage: multer.memoryStorage(), // Store file in memory for conversion
