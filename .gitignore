@@ -4,3 +4,4 @@ node_modules
 nutech.db
 nutech.db-shm
 nutech.db-wal
+.env
