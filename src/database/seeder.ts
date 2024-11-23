@@ -1,7 +1,7 @@
 import type { DB } from '@/database/db';
 
 export function seedDatabase(db: DB) {
-  db.transaction(() => {
+  const transaction = db.transaction(() => {
     const bannerCount = db
       .prepare('SELECT COUNT(*) AS count FROM BANNERS')
       .get() as { count: number } | undefined;
@@ -113,4 +113,5 @@ export function seedDatabase(db: DB) {
       );
     }
   });
+  transaction();
 }
