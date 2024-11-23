@@ -13,7 +13,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(validateRequest);
 
-app.get('/health-check', (_, res) => {
+app.get('/', (_, res) => {
   res.json({ healthy: true });
 });
 
