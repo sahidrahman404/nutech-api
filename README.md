@@ -48,6 +48,10 @@ Pastikan migrasi database sudah dilakukan sebelumnya. Jika anda pertama kali men
 ```bash
 yarn dev
 ```
+3. **Health Check** 
+```sh
+curl localhost:4444/health-check
+```
 
 ---
 
