@@ -2,7 +2,6 @@
   "author": "Mohamad Sahid Rahman",
   "type": "module",
   "scripts": {
-    "migrate": "node migrate/migrate.js",
     "lint": "tsc",
     "build": "esbuild src/index.ts --sourcemap --bundle --platform=node --outfile=dist/index.js --format=esm --external:express --external:@node-rs/argon2 --external:better-sqlite3 --external:body-parser --external:jsonwebtoken --external:multer",
     "start": "node dist/index.js",
